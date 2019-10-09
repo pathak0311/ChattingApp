@@ -82,6 +82,8 @@ public class RegisterActivity extends AppCompatActivity {
                             hashMap.put("Id", userId);
                             hashMap.put("Username", username);
                             hashMap.put("ImageURL", "default");
+                            hashMap.put("Status", "Offline");
+                            hashMap.put("search", username.toLowerCase());
 
                             reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
