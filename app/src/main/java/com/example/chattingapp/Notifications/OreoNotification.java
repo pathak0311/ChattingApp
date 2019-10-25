@@ -24,10 +24,10 @@ public class OreoNotification extends ContextWrapper{
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.P)
+    @TargetApi(Build.VERSION_CODES.O)
     private void createChannel() {
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
-        channel.enableLights(false);
+        channel.enableLights(true);
         channel.enableVibration(true);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
 
@@ -42,7 +42,7 @@ public class OreoNotification extends ContextWrapper{
         return notificationManager;
     }
 
-    @TargetApi(Build.VERSION_CODES.P)
+    @TargetApi(Build.VERSION_CODES.O)
     public Notification.Builder getOreoNotification(String title, String body, PendingIntent pendingIntent, Uri soundUri, String icon){
         return new Notification.Builder(getApplicationContext(), CHANNEL_ID)
                 .setContentIntent(pendingIntent)

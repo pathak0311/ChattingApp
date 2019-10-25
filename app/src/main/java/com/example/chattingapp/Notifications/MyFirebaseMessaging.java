@@ -10,6 +10,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
@@ -25,6 +26,8 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Random;
+
 public class MyFirebaseMessaging extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String s) {
@@ -39,6 +42,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+        Log.d("received", "inside service");
 
         String sent = remoteMessage.getData().get("sent");
         String user = remoteMessage.getData().get("user");
@@ -52,6 +56,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
 
         if(firebaseUser != null && sent.equals(firebaseUser.getUid())){
             if(!currentUser.equals(user)) {
+                Log.d("message received",  Build.VERSION.SDK_INT + "");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     sendOreoNotification(remoteMessage);
                 } else {
@@ -62,6 +67,7 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
     }
 
     private void sendOreoNotification(RemoteMessage remoteMessage) {
+        Log.d("remote1", remoteMessage.toString());
         String user = remoteMessage.getData().get("user");
         String icon = remoteMessage.getData().get("icon");
         String title = remoteMessage.getData().get("title");
@@ -83,11 +89,13 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
         if(j > 0){
             i = j;
         }
+        Log.d("here", "oreo");
 
         oreoNotification.getManager().notify(i, builder.build());
     }
 
     private void sendNotification(RemoteMessage remoteMessage) {
+        Log.d("remote2", remoteMessage.toString());
         String user = remoteMessage.getData().get("user");
         String icon = remoteMessage.getData().get("icon");
         String title = remoteMessage.getData().get("title");

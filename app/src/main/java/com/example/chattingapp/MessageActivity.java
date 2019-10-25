@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -82,7 +83,7 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
-        apiService = Client.getClient("http://fcm.googleapis.com/").create(APIService.class);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -240,19 +241,25 @@ public class MessageActivity extends AppCompatActivity {
                             .enqueue(new Callback<MyResponse>() {
                                 @Override
                                 public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                                    if(response.code() == 200){
-                                        if(response.body().success != 1){
-                                            Toast.makeText(MessageActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
-
+                                    if(response.code() == 200) {
+                                        if (response.body().success != 1) {
+                                            failure("");
                                         }
                                     }
+
                                 }
 
                                 @Override
                                 public void onFailure(Call<MyResponse> call, Throwable t) {
+                                    failure(t.getMessage());
+                                }
 
+                                void failure(String x){
+                                    Log.e("Failure",x);
+                                    Toast.makeText(MessageActivity.this, "Failed! " + x, Toast.LENGTH_SHORT).show();
                                 }
                             });
+                    Log.d("token", "here" + token.getToken());
                 }
             }
 

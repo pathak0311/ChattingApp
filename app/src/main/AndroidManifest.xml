@@ -12,6 +12,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ResetPasswordActivity"
             android:parentActivityName=".LoginActivity"></activity>
@@ -33,9 +34,11 @@
 
         <service android:name=".Notifications.MyFirebaseMessaging"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
-                <action android:name = "com.google.firebase.MESSAGING_EVENET"/>
+                <action android:name = "com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
     </application>
